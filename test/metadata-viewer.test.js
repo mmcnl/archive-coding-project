@@ -4,18 +4,14 @@ import '../metadata-viewer.js';
 
 describe('MetadataViewer', () => {
   it('has a default title "Hey there" and counter 5', async () => {
-    const el = await fixture(html`
-      <metadata-viewer></metadata-viewer>
-    `);
+    const el = await fixture(html` <metadata-viewer></metadata-viewer> `);
 
     expect(el.title).to.equal('Hey there');
     expect(el.counter).to.equal(5);
   });
 
   it('increases the counter on button click', async () => {
-    const el = await fixture(html`
-      <metadata-viewer></metadata-viewer>
-    `);
+    const el = await fixture(html` <metadata-viewer></metadata-viewer> `);
     el.shadowRoot.querySelector('button').click();
 
     expect(el.counter).to.equal(6);
@@ -30,9 +26,7 @@ describe('MetadataViewer', () => {
   });
 
   it('passes the a11y audit', async () => {
-    const el = await fixture(html`
-      <metadata-viewer></metadata-viewer>
-    `);
+    const el = await fixture(html` <metadata-viewer></metadata-viewer> `);
 
     await expect(el).shadowDom.to.be.accessible();
   });
