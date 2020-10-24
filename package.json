@@ -32,8 +32,6 @@
     "@web/test-runner-puppeteer": "^0.7.2",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.11.0",
-    "husky": "^1.0.0",
-    "lint-staged": "^10.0.0",
     "prettier": "^2.0.4",
     "@open-wc/building-rollup": "^1.0.0",
     "deepmerge": "^4.2.2",
@@ -49,17 +47,5 @@
   "prettier": {
     "singleQuote": true,
     "arrowParens": "avoid"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
-    ]
   }
 }
