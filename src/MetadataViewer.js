@@ -13,14 +13,13 @@ export class MetadataViewer extends LitElement {
 
   static get properties() {
     return {
-      title: { type: String },
       counter: { type: Number },
+      item: { type: String },
     };
   }
 
   constructor() {
     super();
-    this.title = 'Hey there';
     this.counter = 5;
   }
 
@@ -30,7 +29,7 @@ export class MetadataViewer extends LitElement {
 
   render() {
     return html`
-      <h2>${this.title} Nr. ${this.counter}!</h2>
+      <h2>${this.item} Nr. ${this.counter}!</h2>
       <button @click=${this.__increment}>increment</button>
     `;
   }

@@ -3,13 +3,6 @@ import { html, fixture, expect } from '@open-wc/testing';
 import '../metadata-viewer.js';
 
 describe('MetadataViewer', () => {
-  it('has a default title "Hey there" and counter 5', async () => {
-    const el = await fixture(html` <metadata-viewer></metadata-viewer> `);
-
-    expect(el.title).to.equal('Hey there');
-    expect(el.counter).to.equal(5);
-  });
-
   it('increases the counter on button click', async () => {
     const el = await fixture(html` <metadata-viewer></metadata-viewer> `);
     el.shadowRoot.querySelector('button').click();
@@ -17,12 +10,12 @@ describe('MetadataViewer', () => {
     expect(el.counter).to.equal(6);
   });
 
-  it('can override the title via attribute', async () => {
+  it('can override the item via attribute', async () => {
     const el = await fixture(html`
-      <metadata-viewer title="attribute title"></metadata-viewer>
+      <metadata-viewer item="test_item"></metadata-viewer>
     `);
 
-    expect(el.title).to.equal('attribute title');
+    expect(el.item).to.equal('test_item');
   });
 
   it('passes the a11y audit', async () => {

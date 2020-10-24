@@ -9,9 +9,18 @@
     </style>
   </head>
   <body>
+    <metadata-viewer item="InformationM"> </metadata-viewer>
+
     <script type="module">
       import './metadata-viewer.js';
+
+      // Module scripts are always deferred so no need to explicitly wait for
+      // onload event
+      const item = new URLSearchParams(window.location.search)?.get('item');
+      if (item) {
+        const e = document.querySelector('metadata-viewer');
+        e.setAttribute('item', item);
+      }
     </script>
-    <metadata-viewer title="hello-archive"></metadata-viewer>
   </body>
 </html>
