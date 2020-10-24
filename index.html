@@ -9,17 +9,17 @@
     </style>
   </head>
   <body>
-    <metadata-viewer item="InformationM"> </metadata-viewer>
+    <metadata-viewer id="InformationM"> </metadata-viewer>
 
     <script type="module">
       import './metadata-viewer.js';
 
-      // Module scripts are always deferred so no need to explicitly wait for
-      // onload event
-      const item = new URLSearchParams(window.location.search)?.get('item');
-      if (item) {
+      // Module scripts are deferred so DOM will already be loaded here
+      const id = new URLSearchParams(window.location.search)?.get('id');
+
+      if (id) {
         const e = document.querySelector('metadata-viewer');
-        e.setAttribute('item', item);
+        e.setAttribute('id', id);
       }
     </script>
   </body>

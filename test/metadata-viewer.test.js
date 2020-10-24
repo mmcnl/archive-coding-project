@@ -1,26 +1,17 @@
-import { html, fixture, expect } from '@open-wc/testing';
-
+import { html, fixture, expect, waitUntil } from '@open-wc/testing';
 import '../metadata-viewer.js';
 
 describe('MetadataViewer', () => {
-  it('increases the counter on button click', async () => {
-    const el = await fixture(html` <metadata-viewer></metadata-viewer> `);
-    el.shadowRoot.querySelector('button').click();
+  it('shows the correct metadata', async () => {
+    const el = await fixture(
+      html` <metadata-viewer id="InformationM"></metadata-viewer> `
+    );
+    await waitUntil(() => el.loaded);
 
-    expect(el.counter).to.equal(6);
-  });
+    const title = el.shadowRoot.querySelector('main .title');
+    expect(title.innerText).to.equal('Information Machine, The');
 
-  it('can override the item via attribute', async () => {
-    const el = await fixture(html`
-      <metadata-viewer item="test_item"></metadata-viewer>
-    `);
-
-    expect(el.item).to.equal('test_item');
-  });
-
-  it('passes the a11y audit', async () => {
-    const el = await fixture(html` <metadata-viewer></metadata-viewer> `);
-
-    await expect(el).shadowDom.to.be.accessible();
+    const description = el.shadowRoot.querySelector('main .description');
+    expect(description.innerText.slice(0, 20)).to.equal('Applies graphic sens');
   });
 });
