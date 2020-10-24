@@ -7,7 +7,7 @@
   "main": "index.js",
   "module": "index.js",
   "scripts": {
-    "start": "web-dev-server --app-index demo/index.html --node-resolve --open --watch",
+    "start": "web-dev-server --app-index index.html --node-resolve --watch",
     "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
     "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
@@ -15,7 +15,9 @@
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "format": "npm run format:eslint && npm run format:prettier",
     "test": "web-test-runner --node-resolve --puppeteer --coverage ",
-    "test:watch": "web-test-runner --watch --node-resolve --puppeteer "
+    "test:watch": "web-test-runner --watch --node-resolve --puppeteer ",
+    "build": "rimraf dist && rollup -c rollup.config.js",
+    "start:build": "npm run build && web-dev-server --root-dir dist --app-index index.html --compatibility none"
   },
   "dependencies": {
     "lit-html": "^1.1.2",
@@ -31,7 +33,11 @@
     "eslint-config-prettier": "^6.11.0",
     "husky": "^1.0.0",
     "lint-staged": "^10.0.0",
-    "prettier": "^2.0.4"
+    "prettier": "^2.0.4",
+    "@open-wc/building-rollup": "^1.0.0",
+    "deepmerge": "^4.2.2",
+    "rimraf": "^2.6.3",
+    "rollup": "^2.3.4"
   },
   "eslintConfig": {
     "extends": [
