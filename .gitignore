@@ -18,6 +18,7 @@
 # build
 /_site/
 /out-tsc/
+/dist
 
 # Logs
 logs
