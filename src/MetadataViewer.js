@@ -22,8 +22,8 @@ export class MetadataViewer extends LitElement {
   }
 
   async fetchMetadata() {
-    // const url = `https://archive.org/metadata/${this.identifier}`;
-    const url = './test/fixtures/metadata.json';
+    const url = `https://archive.org/metadata/${this.identifier}`;
+    // const url = './test/fixtures/metadata.json';
 
     try {
       const response = await fetch(url);
