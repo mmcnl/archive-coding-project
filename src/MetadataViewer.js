@@ -7,35 +7,45 @@ export class MetadataViewer extends LitElement {
 
   static get properties() {
     return {
-      id: { type: String },
-      loaded: { type: Boolean },
+      identifier: { type: String, reflect: true },
       metadata: { type: Object },
     };
   }
 
-  constructor() {
-    super();
+  get identifier() {
+    return this._identifier;
+  }
+
+  set identifier(value) {
+    this._identifier = value;
     this.fetchMetadata();
   }
 
   async fetchMetadata() {
-    const response = await fetch('./test/fixtures/metadata.json');
-    const json = await response.json();
-    this.metadata = json.metadata;
-    this.loaded = true;
+    // const url = `https://archive.org/metadata/${this.identifier}`;
+    const url = './test/fixtures/metadata.json';
+
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      this.metadata = json.metadata;
+    } catch {
+      console.error(`could not load metadata from ${url}`);
+    }
   }
 
   render() {
-    if (!this.loaded) {
-      return html`Loading...`;
+    if (!this.identifier || !this.metadata) {
+      return html`No metadata loaded`;
     }
     const md = this.metadata;
     return html`
       <main>
-        <h2>${this.id}</h2>
+        <h2>${this.identifier}</h2>
 
         <div class="title">${md.title}</div>
-        <div class="description">${md.description}</div>
+
+        <p class="description">${md.description}</p>
 
         <p>${md.publisher}</p>
       </main>

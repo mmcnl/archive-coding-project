@@ -9,17 +9,18 @@
     </style>
   </head>
   <body>
-    <metadata-viewer id="InformationM"> </metadata-viewer>
+    <metadata-viewer></metadata-viewer>
 
     <script type="module">
       import './metadata-viewer.js';
 
       // Module scripts are deferred so DOM will already be loaded here
-      const id = new URLSearchParams(window.location.search)?.get('id');
+      const params = new URLSearchParams(window.location.search);
 
-      if (id) {
-        const e = document.querySelector('metadata-viewer');
-        e.setAttribute('id', id);
+      const identifier = params.get('identifier');
+      if (identifier) {
+        const el = document.querySelector('metadata-viewer');
+        el.identifier = identifier;
       }
     </script>
   </body>

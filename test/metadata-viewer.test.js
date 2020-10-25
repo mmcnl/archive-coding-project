@@ -4,9 +4,9 @@ import '../metadata-viewer.js';
 describe('MetadataViewer', () => {
   it('shows the correct metadata', async () => {
     const el = await fixture(
-      html` <metadata-viewer id="InformationM"></metadata-viewer> `
+      html` <metadata-viewer identifier="InformationM"></metadata-viewer> `
     );
-    await waitUntil(() => el.loaded);
+    await waitUntil(() => el.metadata);
 
     const title = el.shadowRoot.querySelector('main .title');
     expect(title.innerText).to.equal('Information Machine, The');
