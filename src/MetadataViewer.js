@@ -22,6 +22,10 @@ export class MetadataViewer extends LitElement {
   }
 
   async fetchMetadata() {
+    if (!this.identifier) {
+      this.metadata = null;
+      return;
+    }
     const url = `https://archive.org/metadata/${this.identifier}`;
     // const url = './test/fixtures/metadata.json';
 
@@ -36,7 +40,7 @@ export class MetadataViewer extends LitElement {
 
   render() {
     if (!this.identifier || !this.metadata) {
-      return html`No metadata loaded`;
+      return html`<p>No metadata loaded</p>`;
     }
     const md = this.metadata;
     return html`
