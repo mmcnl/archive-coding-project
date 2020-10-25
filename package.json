@@ -17,7 +17,7 @@
     "test": "web-test-runner --node-resolve --puppeteer --coverage ",
     "test:watch": "web-test-runner --watch --node-resolve --puppeteer ",
     "build": "rimraf dist && rollup -c rollup.config.js",
-    "deploy-gh": "npm run build && git push origin :gh-pages; git subtree push --prefix dist origin gh-pages",
+    "deploy-gh": "git push origin :gh-pages; git subtree push --prefix dist origin gh-pages",
     "start:build": "npm run build && web-dev-server --root-dir dist --app-index index.html --compatibility none"
   },
   "dependencies": {
