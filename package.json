@@ -16,8 +16,7 @@
     "format": "npm run format:eslint && npm run format:prettier",
     "test": "web-test-runner --node-resolve --puppeteer --coverage ",
     "test:watch": "web-test-runner --watch --node-resolve --puppeteer ",
-    "build": "rimraf dist && rollup -c rollup.config.js",
-    "deploy-gh": "git push origin :gh-pages; git subtree push --prefix dist origin gh-pages",
+    "build": "rimraf dist && rollup -c rollup.config.js; rimraf docs; cp -a dist docs",
     "start:build": "npm run build && web-dev-server --root-dir dist --app-index index.html --compatibility none"
   },
   "dependencies": {
