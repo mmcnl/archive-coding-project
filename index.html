@@ -9,17 +9,16 @@
     </style>
   </head>
   <body>
-    <metadata-viewer></metadata-viewer>
+    <item-viewer></item-viewer>
 
     <script type="module">
-      import './metadata-viewer.js';
+      import './index.js';
 
-      // Module scripts are deferred so DOM will already be loaded here
       const params = new URLSearchParams(window.location.search);
-
       const identifier = params.get('identifier');
+
       if (identifier) {
-        const el = document.querySelector('metadata-viewer');
+        const el = document.querySelector('item-viewer');
         el.identifier = identifier;
       }
     </script>

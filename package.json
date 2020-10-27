@@ -1,8 +1,8 @@
 {
-  "name": "metadata-viewer",
+  "name": "item-viewer",
   "version": "0.0.0",
-  "description": "Webcomponent metadata-viewer following open-wc recommendations",
-  "author": "metadata-viewer",
+  "description": "Webcomponent item-viewer following open-wc recommendations",
+  "author": "item-viewer",
   "license": "MIT",
   "main": "index.js",
   "module": "index.js",
@@ -16,7 +16,7 @@
     "format": "npm run format:eslint && npm run format:prettier",
     "test": "web-test-runner --node-resolve --puppeteer --coverage ",
     "test:watch": "web-test-runner --watch --node-resolve --puppeteer ",
-    "build": "rimraf dist && rollup -c rollup.config.js; rimraf docs; cp -a dist docs",
+    "build": "rimraf docs && rollup -c rollup.config.js",
     "start:build": "npm run build && web-dev-server --root-dir dist --app-index index.html --compatibility none"
   },
   "dependencies": {

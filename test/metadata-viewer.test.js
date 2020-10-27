@@ -1,10 +1,10 @@
 import { html, fixture, expect, waitUntil, aTimeout } from '@open-wc/testing';
-import '../metadata-viewer.js';
+import '../item-viewer.js';
 
-describe('MetadataViewer', () => {
+describe('ItemViewer', () => {
   it('shows the correct metadata', async () => {
     const el = await fixture(
-      html` <metadata-viewer identifier="InformationM"></metadata-viewer> `
+      html` <item-viewer identifier="InformationM"></item-viewer> `
     );
     await waitUntil(() => el.metadata);
 
@@ -16,7 +16,7 @@ describe('MetadataViewer', () => {
   });
 
   it('shows a message if there is no metadata available', async () => {
-    const el = await fixture(html` <metadata-viewer></metadata-viewer> `);
+    const el = await fixture(html` <item-viewer></item-viewer> `);
     await aTimeout(10);
 
     expect(el.shadowRoot.querySelector('p').innerText).to.equal(
