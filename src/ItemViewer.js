@@ -63,6 +63,10 @@ export class ItemViewer extends LitElement {
       .item-description {
         font-size: 14px;
       }
+      .no-item {
+        margin: 1rem;
+        color: white;
+      }
     `;
   }
 
@@ -116,7 +120,7 @@ export class ItemViewer extends LitElement {
 
   render() {
     if (!this.identifier || !this.item) {
-      return html`<p>No item loaded</p>`;
+      return html`<p class="no-item">No item loaded</p>`;
     }
     const md = this.item.metadata;
     return html`
