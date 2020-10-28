@@ -4,6 +4,7 @@ export class VideoElement extends LitElement {
   static get styles() {
     return css`
       main {
+        background-color: #000;
         text-align: center;
       }
     `;
@@ -20,7 +21,7 @@ export class VideoElement extends LitElement {
       <main>
         <iframe
           frameborder="0"
-          src="https://archive.org/embed/${this.identifier}"
+          src="https://xarchive.org/embed/${this.identifier}"
           width="640"
           height="480"
           frameborder="0"

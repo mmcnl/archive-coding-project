@@ -3,13 +3,27 @@ import { html, css, LitElement } from 'lit-element';
 export class MetadataPair extends LitElement {
   static get styles() {
     return css`
-      dt,
-      dd {
+      a {
+        color: #428bca;
+        text-decoration: none;
+      }
+      dl {
+        font-weight: 200;
+        font-size: 16px;
+        color: #333;
+        margin: 0;
+        line-height: 1.4;
+      }
+      dd,
+      dt {
         display: inline-block;
         margin: 0;
       }
       dt {
-        width: 10em;
+        width: 33%;
+      }
+      dd {
+        color: #aaa;
       }
     `;
   }

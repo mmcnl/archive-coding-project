@@ -4,13 +4,27 @@ export class ItemReviews extends LitElement {
   static get styles() {
     return css`
       h3 {
+        font-size: 36px;
         border-bottom: 1px solid gray;
+        font-weight: 200;
+        margin-bottom: 1rem;
       }
       .review {
-        margin: 1em;
+        font-size: 14px;
+        margin-bottom: 1rem;
       }
       label {
         font-weight: bold;
+      }
+      .title {
+        margin-bottom: 0.5rem;
+      }
+      .stars {
+        font-size: 80%;
+      }
+      a {
+        color: #428bca;
+        text-decoration: none;
       }
     `;
   }
