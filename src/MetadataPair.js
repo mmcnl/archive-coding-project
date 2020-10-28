@@ -1,4 +1,5 @@
 import { html, css, LitElement } from 'lit-element';
+import { nothing } from 'lit-html';
 
 export class MetadataPair extends LitElement {
   static get styles() {
@@ -20,10 +21,12 @@ export class MetadataPair extends LitElement {
         margin: 0;
       }
       dt {
-        width: 33%;
+        min-width: 25%;
+        vertical-align: top;
       }
       dd {
         color: #aaa;
+        max-width: 74%;
       }
     `;
   }
@@ -31,6 +34,7 @@ export class MetadataPair extends LitElement {
   static get properties() {
     return {
       key: { type: String },
+      value: { type: Object },
     };
   }
 
@@ -58,33 +62,58 @@ export class MetadataPair extends LitElement {
       case 'subject':
         return this.topics();
       default:
-        return this.textContent;
+        return this.value;
     }
   }
 
   usage() {
-    return 'usage link';
+    if (this.value === 'http://creativecommons.org/licenses/publicdomain/') {
+      return html` <a href="${this.value}"> Public Domain </a>`;
+    } else if (this.value.startsWith('http')) {
+      return html` <a href="${this.value}"> License </a>`;
+    }
+    return this.value;
   }
 
   pubDate() {
-    return 'pub date link';
+    return html`
+      <a href="https://archive.org/search.php?query=date:${this.value}">
+        ${this.value}
+      </a>
+    `;
   }
 
   topics() {
-    return this.textContent.split(';')?.map(topic => {
-      return html`
-        <a
-          href="https://archive.org/search.php?query=${encodeURIComponent(
-            `subject: "${topic}"`
-          )}"
-          >${topic}</a
-        >
-      `;
-    });
+    let content;
+    if (typeof this.value.map === 'function') {
+      content = this.value;
+    } else {
+      content = this.value.split(/[;]/).filter(item => item);
+    }
+    // lit-html doesn't support join so simulate it using this approach
+    // https://github.com/Polymer/lit-html/issues/1131#issuecomment-603971243
+    return html`${this.join(
+      content.map(topic => this.topicLink(topic.trim())),
+      ', '
+    )}`;
+  }
+
+  topicLink(topic) {
+    return html` <a
+      href="https://archive.org/search.php?query=${encodeURIComponent(
+        `subject: "${topic}"`
+      )}"
+      >${topic}</a
+    >`;
+  }
+
+  // see https://github.com/Polymer/lit-html/issues/1131#issuecomment-603971243
+  join(values, joiner) {
+    return values.map((v, i) => [v, i < values.length - 1 ? joiner : nothing]);
   }
 
   render() {
-    if (!this.textContent) {
+    if (!this.value) {
       return;
     }
 

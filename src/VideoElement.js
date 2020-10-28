@@ -21,7 +21,7 @@ export class VideoElement extends LitElement {
       <main>
         <iframe
           frameborder="0"
-          src="https://xarchive.org/embed/${this.identifier}"
+          src="https://archive.org/embed/${this.identifier}"
           width="640"
           height="480"
           frameborder="0"

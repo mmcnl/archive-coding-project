@@ -1,44 +1,63 @@
 import { html, css, LitElement } from 'lit-element';
 
 export class ItemViewer extends LitElement {
+  constructor() {
+    super();
+    this.featuredPairs = [
+      'date',
+      'licenseurl',
+      'subject',
+      'publisher',
+      'sponsor',
+    ];
+    this.additionalPairs = [
+      'addeddate',
+      'closed_captioning',
+      'collectionid',
+      'color',
+      'identifier',
+      'numeric_id',
+      'proddate',
+      'runtime',
+      'sound',
+      'type',
+    ];
+  }
   static get styles() {
     return css`
       main {
-        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-        color: #333;
         background-color: white;
+        color: #333;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
       }
-      .grid-container {
+      .grid {
         margin: 0 auto;
         max-width: 1200px;
         display: grid;
         grid-template-columns: 2fr 1fr;
-        grid-template-areas: 'a b';
-      }
-      .metadata,
-      .related {
-        padding: 0 2em;
+        grid-template-areas: 'left right';
       }
       .metadata {
-        grid-area: a;
+        grid-area: left;
+        padding: 0 2rem 1rem;
       }
       .related {
-        grid-area: b;
+        grid-area: right;
         background-color: hsla(0, 0%, 85%, 0.33);
         box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.33);
+        border-radius: 1px;
         padding: 0 1rem;
         margin: 1rem;
       }
       .related h3 {
         color: #444;
-        margin: 1rem auto;
         font-size: 20px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.2);
         padding-bottom: 0.2rem;
-        border-radius: 2px;
+        margin: 1rem auto;
       }
       .item-title {
-        font-size: 30px;
+        font-size: 34px;
         font-weight: 500;
       }
       .item-description {
@@ -50,7 +69,8 @@ export class ItemViewer extends LitElement {
   static get properties() {
     return {
       identifier: { type: String, reflect: true },
-      data: { type: Object },
+      item: { type: Object },
+      related: { type: Object },
     };
   }
 
@@ -60,75 +80,66 @@ export class ItemViewer extends LitElement {
 
   set identifier(value) {
     this._identifier = value;
-    this.fetchData();
+    this.fetchRemoteData();
   }
 
-  async fetchData() {
+  async fetchRemoteData() {
     if (!this.identifier) {
-      this.data = null;
+      this.item = null;
       return;
     }
-    // const url = `https://archive.org/metadata/${this.identifier}`;
-    const url = './test/fixtures/metadata.json';
-
-    try {
-      const response = await fetch(url);
-      const json = await response.json();
-      this.data = json;
-    } catch {
-      console.error(`could not load metadata from ${url}`);
+    const dataSources = {
+      item: `https://archive.org/metadata/${this.identifier}`,
+      related: `https://be-api.us.archive.org/mds/v1/get_related/all/${this.identifier}`,
+    };
+    // const dataSources = {
+    //   item: './test/fixtures/metadata.json',
+    //   related: './test/fixtures/related.json',
+    // };
+    for (const [dataType, url] of Object.entries(dataSources)) {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        this[dataType] = json;
+      } catch {
+        console.error(`could not load ${dataType} data from ${url}`);
+      }
     }
+  }
+
+  pairsHtml(pairs) {
+    const md = this.item.metadata;
+    return pairs.map(
+      k => html`<metadata-pair .key=${k} .value=${md[k]}></metadata-pair>`
+    );
   }
 
   render() {
-    if (!this.identifier || !this.data) {
-      return html`<p>No data loaded</p>`;
+    if (!this.identifier || !this.item) {
+      return html`<p>No item loaded</p>`;
     }
-
-    const md = this.data.metadata;
+    const md = this.item.metadata;
     return html`
       <main>
         <div class="video">
           <video-element .identifier=${this.identifier}></video-element>
         </div>
-        <div class="grid-container">
+
+        <div class="grid">
           <div class="metadata">
             <h2 class="item-title">${md.title}</h2>
-            ${/* featured pairs */ [
-              'date',
-              'licenseurl',
-              'subject',
-              'publisher',
-              'sponsor',
-            ].map(k => {
-              return html`
-                <metadata-pair .key=${k}> ${md[k]} </metadata-pair>
-              `;
-            })}
+
+            ${this.pairsHtml(this.featuredPairs)}
 
             <p class="item-description">${md.description}</p>
 
-            ${/* additional pairs */ [
-              'addeddate',
-              'closed_captioning',
-              'collectionid',
-              'color',
-              'identifier',
-              'numeric_id',
-              'proddate',
-              'runtime',
-              'sound',
-              'type',
-            ].map(k => {
-              return html`
-                <metadata-pair .key=${k}> ${md[k]} </metadata-pair>
-              `;
-            })}
+            ${this.pairsHtml(this.additionalPairs)}
 
-            <item-reviews .reviews=${this.data.reviews}></item-reviews>
+            <item-reviews .reviews=${this.item.reviews}></item-reviews>
           </div>
+
           <div class="related">
-            <h3>SIMILAR ITEMS</h3>
+            <related-items .items=${this.related?.hits?.hits}></related-items>
           </div>
         </div>
       </main>

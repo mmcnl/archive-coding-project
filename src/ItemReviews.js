@@ -4,7 +4,7 @@ export class ItemReviews extends LitElement {
   static get styles() {
     return css`
       h3 {
-        font-size: 36px;
+        font-size: 32px;
         border-bottom: 1px solid gray;
         font-weight: 200;
         margin-bottom: 1rem;
@@ -41,12 +41,21 @@ export class ItemReviews extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    if (this.reviews && typeof this.reviews.map === 'function') {
+      this.sortReviews();
+    }
+  }
+
+  sortReviews() {
     this.reviews = [...this.reviews].sort(
       (a, b) => -a.reviewdate.localeCompare(b.reviewdate)
     );
   }
 
   render() {
+    if (typeof this.reviews !== 'object') {
+      return;
+    }
     return html`
       <main>
         <h3>Reviews</h3>
