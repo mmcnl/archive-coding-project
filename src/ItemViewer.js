@@ -102,8 +102,10 @@ export class ItemViewer extends LitElement {
     // };
     for (const [dataType, url] of Object.entries(dataSources)) {
       try {
+        console.log(`fetching ${url}`);
         const response = await fetch(url);
         const json = await response.json();
+        console.log(`received ${JSON.stringify(json).length} bytes`);
         this[dataType] = json;
       } catch {
         console.error(`could not load ${dataType} data from ${url}`);
@@ -119,10 +121,10 @@ export class ItemViewer extends LitElement {
   }
 
   render() {
-    if (!this.identifier || !this.item) {
+    const md = this.item?.metadata;
+    if (!this.identifier || !this.item || !md) {
       return html`<p class="no-item">No item loaded</p>`;
     }
-    const md = this.item.metadata;
     return html`
       <main>
         <div class="video">
