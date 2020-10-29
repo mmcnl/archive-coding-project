@@ -8,13 +8,18 @@ import '../index.js';
 import itemApiResponse from '../test/fixtures/item.js';
 import relatedApiResponse from '../test/fixtures/related.js';
 
-fetchMock.sticky('https://archive.org/metadata/InformationM', itemApiResponse);
-fetchMock.sticky(
-  'https://be-api.us.archive.org/mds/v1/get_related/all/InformationM',
-  relatedApiResponse
-);
-
 describe('ItemViewer', () => {
+  before(() => {
+    fetchMock.sticky(
+      'https://archive.org/metadata/InformationM',
+      itemApiResponse
+    );
+    fetchMock.sticky(
+      'https://be-api.us.archive.org/mds/v1/get_related/all/InformationM',
+      relatedApiResponse
+    );
+  });
+
   it('shows a message if no identifier was provided', async () => {
     const el = await fixture(html` <item-viewer></item-viewer> `);
     await aTimeout(10);
@@ -60,5 +65,20 @@ describe('ItemViewer', () => {
     ).map(e => e.innerText);
 
     expect(downloadCounts[5]).to.equal('77 views');
+  });
+
+  it('shows reviews for requested item', async () => {
+    const el = await fixture(
+      html` <item-viewer identifier="InformationM"></item-viewer> `
+    );
+    await waitUntil(() => el.item);
+
+    const reviews = Array.from(
+      el.shadowRoot
+        .querySelector('item-reviews')
+        .shadowRoot.querySelectorAll('.review .title .text')
+    ).map(e => e.innerText);
+
+    expect(reviews[5]).to.equal('What a riot!');
   });
 });
