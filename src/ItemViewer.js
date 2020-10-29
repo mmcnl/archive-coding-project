@@ -96,6 +96,7 @@ export class ItemViewer extends LitElement {
       item: `https://archive.org/metadata/${this.identifier}`,
       related: `https://be-api.us.archive.org/mds/v1/get_related/all/${this.identifier}`,
     };
+    // for local development without repeatedly hitting the archive servers
     // const dataSources = {
     //   item: './test/fixtures/metadata.json',
     //   related: './test/fixtures/related.json',
