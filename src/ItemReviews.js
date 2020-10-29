@@ -41,7 +41,7 @@ export class ItemReviews extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    if (this.reviews && typeof this.reviews.map === 'function') {
+    if (typeof this.reviews?.map === 'function') {
       this.sortReviews();
     }
   }
