@@ -1,3 +1,24 @@
+# Deliverables
+
+This repository contains code for a LitElement custom element that uses the Archive.org Metadata API to display libary items. To use the element import the module then embed it into the HTML body like so:
+```html
+<item-viewer identifier="InformationM"></item-viewer>
+```
+
+A build of the project is available on Github pages. Here are some URLs that show the embedded element displaying items.
+
+* https://mmcnl.github.io/archive-coding-project/?identifier=InformationM
+* https://mmcnl.github.io/archive-coding-project/?identifier=0577_Logic_by_Machine_15_01_03_00
+* https://mmcnl.github.io/archive-coding-project/?identifier=historyofmodernc0000ceru
+
+If no identifier is given to the element, a simple message is displayed.
+* https://mmcnl.github.io/archive-coding-project 
+  * no item is initially loaded
+  * enter the following into the DevTools console to trigger a reload of the <item-viewer> custom element:
+  ```javascript
+  document.querySelector('item-viewer').identifier = 'InformationM'
+  ```
+
 ## YOUR MISSION
 
 Using the front-end framework of your choice (e.g. LitElement, React), take the output of the Archive.org Metadata API and render the contents as a webpage. The rendering should all be done client-side.
